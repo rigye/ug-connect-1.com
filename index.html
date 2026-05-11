@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UgandaConnect – Shop, Sell & Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#D4A017;--gold-light:#F5D77A;--gold-dark:#9A7210;
+  --green:#1B6B3A;--green-light:#2FA85C;--green-pale:#E8F5EE;
+  --red:#C0392B;--red-pale:#FDE9E7;
+  --text:#1A1A2E;--text-muted:#6B7280;
+  --bg:#FAF9F6;--white:#FFFFFF;
+  --surface:#F0EDE6;--border:#E2DDD4;
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 4px 24px rgba(0,0,0,.10);
+  --shadow-sm:0 2px 10px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+h1,h2,h3,.logo-text{font-family:'Syne',sans-serif}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--green);color:#fff;text-align:center;font-size:13px;padding:8px;letter-spacing:.3px}
+nav{background:var(--white);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--green));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:18px}
+.logo-text{color:var(--text);font-size:20px;font-weight:800}
+.logo-text span{color:var(--green)}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{padding:8px 14px;border-radius:var(--radius-sm);text-decoration:none;color:var(--text-muted);font-size:14px;font-weight:600;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{background:var(--green-pale);color:var(--green)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:10px 20px;border-radius:var(--radius-sm);font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-outline{background:transparent;border:2px solid var(--green);color:var(--green)}
+.btn-outline:hover{background:var(--green);color:#fff}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-dark)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-light)}
+.cart-btn{position:relative;background:var(--gold);border:none;border-radius:var(--radius-sm);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:20px}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* ─── PAGES ─── */
+.page{display:none;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── HERO ─── */
+.hero{background:linear-gradient(135deg,#0F3D22 0%,#1B6B3A 60%,#2FA85C 100%);color:#fff;padding:80px 20px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:rgba(212,160,23,.15);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;background:rgba(212,160,23,.1);border-radius:50%}
+.hero-inner{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-block;background:rgba(212,160,23,.25);border:1px solid var(--gold);color:var(--gold-light);padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:20px;letter-spacing:.5px}
+.hero h1{font-size:clamp(36px,5vw,60px);font-weight:800;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:18px;opacity:.85;margin-bottom:36px;line-height:1.6}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:50px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--gold)}
+.stat-label{font-size:13px;opacity:.75;margin-top:2px}
+
+/* ─── SECTION ─── */
+.section{max-width:1200px;margin:0 auto;padding:60px 20px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.section-title{font-size:28px;font-weight:800}
+.section-title span{color:var(--green)}
+.section-sub{color:var(--text-muted);font-size:15px;margin-top:4px}
+
+/* ─── CATEGORY TABS ─── */
+.cat-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.cat-tab{padding:10px 20px;border-radius:30px;border:2px solid var(--border);background:var(--white);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.cat-tab:hover{border-color:var(--green);color:var(--green)}
+.cat-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+.cat-icon{font-size:18px}
+
+/* ─── PRODUCT GRID ─── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.product-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all .25s;cursor:pointer}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.product-img{height:200px;object-fit:cover;width:100%;display:block;background:var(--surface)}
+.product-img-placeholder{height:200px;background:linear-gradient(135deg,var(--surface),var(--border));display:flex;align-items:center;justify-content:center;font-size:48px}
+.product-body{padding:14px 16px}
+.product-seller{font-size:12px;color:var(--text-muted);font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:6px}
+.seller-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.product-name{font-weight:700;font-size:16px;line-height:1.3;margin-bottom:6px}
+.product-location{font-size:12px;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:4px}
+.product-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border)}
+.product-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green)}
+.product-price small{font-size:12px;font-family:'Nunito',sans-serif;color:var(--text-muted)}
+.add-btn{width:36px;height:36px;background:var(--gold);border:none;border-radius:var(--radius-sm);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.add-btn:hover{background:var(--green);transform:scale(1.1)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.3px}
+.badge-gold{background:var(--gold-light);color:var(--gold-dark)}
+.badge-green{background:var(--green-pale);color:var(--green)}
+.badge-red{background:var(--red-pale);color:var(--red)}
+
+/* ─── SEARCH BAR ─── */
+.search-bar{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.search-input{flex:1;min-width:200px;padding:12px 18px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:'Nunito',sans-serif;background:var(--white);outline:none;transition:border .2s}
+.search-input:focus{border-color:var(--green)}
+.search-select{padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Nunito',sans-serif;background:var(--white);outline:none;cursor:pointer}
+.search-btn{padding:12px 24px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.search-btn:hover{background:var(--green-light)}
+
+/* ─── SELLER CARDS ─── */
+.sellers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.seller-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:20px;transition:all .25s;cursor:pointer}
+.seller-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.seller-avatar{width:60px;height:60px;border-radius:50%;object-fit:cover;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800;font-family:'Syne',sans-serif}
+.seller-header{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.seller-info h3{font-size:17px;font-weight:800;margin-bottom:2px}
+.seller-info p{font-size:13px;color:var(--text-muted)}
+.seller-meta{display:flex;gap:16px;font-size:13px;color:var(--text-muted);flex-wrap:wrap}
+.seller-meta span{display:flex;align-items:center;gap:4px;font-weight:600}
+.seller-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{background:var(--surface);color:var(--text);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.contact-btns{display:flex;gap:8px;margin-top:14px}
+.wa-btn{background:#25D366;color:#fff;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Nunito',sans-serif}
+.map-btn{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+
+/* ─── ORDER FORM ─── */
+.order-wrap{max-width:700px;margin:0 auto;padding:40px 20px}
+.order-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.order-header{background:linear-gradient(135deg,var(--green),#2FA85C);color:#fff;padding:28px 32px}
+.order-header h2{font-size:24px;font-weight:800;margin-bottom:6px}
+.order-header p{opacity:.85;font-size:15px}
+.order-body{padding:32px}
+.form-group{margin-bottom:22px}
+.form-label{display:block;font-weight:700;margin-bottom:8px;font-size:14px;color:var(--text)}
+.form-input,.form-select,.form-textarea{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:'Nunito',sans-serif;background:var(--white);outline:none;transition:border .2s;color:var(--text)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--green)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
+.form-hint{font-size:12px;color:var(--text-muted);margin-top:5px}
+.submit-btn{width:100%;padding:16px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:17px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:hover{background:var(--green-light)}
+.success-msg{background:var(--green-pale);border:1px solid var(--green);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--green);font-weight:700;display:none}
+.success-msg.show{display:block}
+.whatsapp-note{background:rgba(37,211,102,.1);border:1px solid #25D366;border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--text);margin-top:12px}
+
+/* ─── COMMUNITY ─── */
+.community-grid{display:grid;grid-template-columns:1fr 360px;gap:24px;max-width:1200px;margin:0 auto;padding:40px 20px}
+@media(max-width:800px){.community-grid{grid-template-columns:1fr}}
+.post-form{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:20px;margin-bottom:20px}
+.post-form textarea{width:100%;border:2px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-family:'Nunito',sans-serif;font-size:15px;resize:none;min-height:80px;outline:none}
+.post-form textarea:focus{border-color:var(--green)}
+.post-form-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px}
+.post-type-btns{display:flex;gap:8px}
+.type-btn{padding:6px 14px;border:2px solid var(--border);border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;transition:all .2s}
+.type-btn.active{border-color:var(--green);color:var(--green)}
+.feed-post{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:18px;margin-bottom:16px}
+.post-user{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.post-avatar{width:42px;height:42px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;flex-shrink:0}
+.post-username{font-weight:700;font-size:15px}
+.post-time{font-size:12px;color:var(--text-muted)}
+.post-text{font-size:15px;line-height:1.6;margin-bottom:12px}
+.post-img{width:100%;border-radius:var(--radius-sm);object-fit:cover;max-height:220px;display:block;background:var(--surface)}
+.post-actions{display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border)}
+.post-action{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);cursor:pointer;font-weight:600;transition:color .2s}
+.post-action:hover{color:var(--green)}
+.post-action.liked{color:var(--red)}
+.sidebar-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:20px;margin-bottom:16px}
+.sidebar-card h3{font-size:16px;font-weight:800;margin-bottom:14px;color:var(--text)}
+.trending-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--gold);min-width:24px}
+.trending-tag{font-size:14px;font-weight:700}
+.trending-count{font-size:12px;color:var(--text-muted);margin-top:1px}
+
+/* ─── CART ─── */
+.cart-panel{position:fixed;top:0;right:-400px;width:380px;height:100vh;background:var(--white);box-shadow:-4px 0 30px rgba(0,0,0,.15);z-index:200;transition:right .3s ease;display:flex;flex-direction:column}
+.cart-panel.open{right:0}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199;display:none}
+.cart-overlay.show{display:block}
+.cart-header{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cart-header h2{font-size:20px;font-weight:800}
+.close-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.cart-items{flex:1;overflow-y:auto;padding:16px}
+.cart-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.cart-item-img{width:70px;height:70px;border-radius:var(--radius-sm);object-fit:cover;background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:700;font-size:14px;margin-bottom:4px}
+.cart-item-seller{font-size:12px;color:var(--text-muted)}
+.cart-item-price{font-weight:800;color:var(--green);font-size:16px}
+.qty-ctrl{display:flex;align-items:center;gap:8px;margin-top:6px}
+.qty-btn{width:26px;height:26px;border:1px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.qty-num{font-weight:700;font-size:14px;min-width:20px;text-align:center}
+.remove-item{margin-left:auto;align-self:flex-start;background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:18px}
+.cart-footer{padding:20px;border-top:1px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin-bottom:16px}
+.checkout-btn{width:100%;padding:15px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
+.empty-cart{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-cart .icon{font-size:48px;margin-bottom:12px}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:#fff;padding:12px 24px;border-radius:30px;font-size:15px;font-weight:700;z-index:300;transition:transform .3s ease;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--text);color:#fff;padding:60px 20px 30px}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px}
+.footer-col h4{font-size:16px;font-weight:800;margin-bottom:16px;color:var(--gold)}
+.footer-col p,.footer-col a{font-size:14px;color:rgba(255,255,255,.7);line-height:2;text-decoration:none;display:block}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;text-align:center;font-size:13px;color:rgba(255,255,255,.4)}
+.wa-float{position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:100;text-decoration:none;transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ─── UTILS ─── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero{padding:60px 20px}
+  .section{padding:40px 16px}
+  .products-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">🇺🇬 Uganda's #1 Marketplace — Shop Local, Connect & Grow Together</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showPage('home')">
+      <div class="logo-icon">UC</div>
+      <span class="logo-text">Uganda<span>Connect</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active" onclick="navClick(this,'home')">Home</a></li>
+      <li><a href="#" onclick="navClick(this,'marketplace')">Marketplace</a></li>
+      <li><a href="#" onclick="navClick(this,'sellers')">Sellers</a></li>
+      <li><a href="#" onclick="navClick(this,'community')">Community</a></li>
+      <li><a href="#" onclick="navClick(this,'order')">Order Now</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-outline" onclick="showPage('order')">Sell / List</button>
+      <button class="cart-btn" onclick="toggleCart()">🛒<span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── CART ─── -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>Your Cart 🛒</h2>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="empty-cart"><div class="icon">🛒</div><p>Your cart is empty</p><p style="font-size:13px;margin-top:6px">Browse the marketplace to add items</p></div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">UGX 0</span></div>
+    <button class="checkout-btn" onclick="checkout()">📱 Order via WhatsApp</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🇺🇬 MADE FOR UGANDA</div>
+      <h1>Shop. Sell. <span>Connect.</span><br/>One Platform.</h1>
+      <p>From Shein fashion to Kampala farmers — discover products, share your business, and connect with buyers across Uganda.</p>
+      <div class="hero-btns">
+        <button class="btn btn-gold" onclick="showPage('marketplace')">🛍️ Browse Marketplace</button>
+        <button class="btn btn-outline" style="border-color:#fff;color:#fff" onclick="showPage('order')">📦 Place an Order</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Active Sellers</div></div>
+        <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Happy Buyers</div></div>
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Districts Covered</div></div>
+        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">WhatsApp Support</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="section">
+    <div class="section-header">
+      <div><h2 class="section-title">Explore <span>Categories</span></h2><p class="section-sub">Fashion, food, farms, electronics and more</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">
+      <div class="product-card" style="cursor:pointer" onclick="filterCategory('Fashion')">
+        <div class="product-img-placeholder">👗</div>
+        <div class="product-body"><div class="product-name">Fashion</div><div class="product-location">International & Local</div></div>
+      </div>
+      <div class="product-card" onclick="filterCategory('Farm Produce')">
+        <div class="product-img-placeholder">🌽</div>
+        <div class="product-body"><div class="product-name">Farm Produce</div><div class="product-location">Direct from Farmers</div></div>
+      </div>
+      <div class="product-card" onclick="filterCategory('Electronics')">
+        <div class="product-img-placeholder">📱</div>
+        <div class="product-body"><div class="product-name">Electronics</div><div class="product-location">Phones, Accessories</div></div>
+      </div>
+      <div class="product-card" onclick="filterCategory('Food & Drinks')">
+        <div class="product-img-placeholder">🍲</div>
+        <div class="product-body"><div class="product-name">Food & Drinks</div><div class="product-location">Local Delicacies</div></div>
+      </div>
+      <div class="product-card" onclick="filterCategory('Crafts')">
+        <div class="product-img-placeholder">🎨</div>
+        <div class="product-body"><div class="product-name">Crafts & Art</div><div class="product-location">Handmade Goods</div></div>
+      </div>
+      <div class="product-card" onclick="filterCategory('Services')">
+        <div class="product-img-placeholder">🔧</div>
+        <div class="product-body"><div class="product-name">Services</div><div class="product-location">Plumbers, Tailors…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Products -->
+  <div style="background:var(--surface);padding:20px 0">
+  <div class="section" style="padding-top:40px;padding-bottom:40px">
+    <div class="section-header">
+      <div><h2 class="section-title">Featured <span>Products</span></h2></div>
+      <button class="btn btn-outline" onclick="showPage('marketplace')">View All →</button>
+    </div>
+    <div class="products-grid" id="featuredGrid"></div>
+  </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="section">
+    <div class="section-header"><div><h2 class="section-title">How It <span>Works</span></h2></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <div style="text-align:center;padding:30px 20px">
+        <div style="font-size:48px;margin-bottom:14px">🔍</div>
+        <h3 style="font-size:18px;margin-bottom:8px">Browse & Discover</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.6">Search across international stores (SHEIN, Amazon) and local Ugandan sellers all in one place.</p>
+      </div>
+      <div style="text-align:center;padding:30px 20px">
+        <div style="font-size:48px;margin-bottom:14px">📝</div>
+        <h3 style="font-size:18px;margin-bottom:8px">Place Your Order</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.6">Submit orders easily. We handle international shipping and connect you directly to local suppliers.</p>
+      </div>
+      <div style="text-align:center;padding:30px 20px">
+        <div style="font-size:48px;margin-bottom:14px">💬</div>
+        <h3 style="font-size:18px;margin-bottom:8px">Connect via WhatsApp</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.6">Get real-time updates, negotiate with sellers, and track deliveries all through WhatsApp.</p>
+      </div>
+      <div style="text-align:center;padding:30px 20px">
+        <div style="font-size:48px;margin-bottom:14px">🚚</div>
+        <h3 style="font-size:18px;margin-bottom:8px">Fast Delivery</h3>
+        <p style="color:var(--text-muted);font-size:14px;line-height:1.6">Local products delivered same-day in Kampala. International orders in 7–14 days.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MARKETPLACE PAGE ═══════════ -->
+<div id="page-marketplace" class="page">
+  <div class="section">
+    <h2 class="section-title" style="margin-bottom:8px">Marketplace</h2>
+    <p class="section-sub" style="margin-bottom:24px">Products from Uganda and around the world</p>
+
+    <div class="search-bar">
+      <input class="search-input" placeholder="🔍 Search products, sellers, locations…" id="searchInput" oninput="filterProducts()"/>
+      <select class="search-select" id="categoryFilter" onchange="filterProducts()">
+        <option value="">All Categories</option>
+        <option>Fashion</option>
+        <option>Farm Produce</option>
+        <option>Electronics</option>
+        <option>Food & Drinks</option>
+        <option>Crafts</option>
+        <option>Services</option>
+      </select>
+      <select class="search-select" id="locationFilter" onchange="filterProducts()">
+        <option value="">All Locations</option>
+        <option>Kampala</option>
+        <option>Jinja</option>
+        <option>Gulu</option>
+        <option>Mbarara</option>
+        <option>SHEIN (International)</option>
+        <option>Amazon (International)</option>
+      </select>
+    </div>
+
+    <div class="cat-tabs" id="catTabs">
+      <button class="cat-tab active" onclick="setCat(this,'')"><span class="cat-icon">🏪</span> All</button>
+      <button class="cat-tab" onclick="setCat(this,'Fashion')"><span class="cat-icon">👗</span> Fashion</button>
+      <button class="cat-tab" onclick="setCat(this,'Farm Produce')"><span class="cat-icon">🌽</span> Farms</button>
+      <button class="cat-tab" onclick="setCat(this,'Electronics')"><span class="cat-icon">📱</span> Electronics</button>
+      <button class="cat-tab" onclick="setCat(this,'Food & Drinks')"><span class="cat-icon">🍲</span> Food</button>
+      <button class="cat-tab" onclick="setCat(this,'Crafts')"><span class="cat-icon">🎨</span> Crafts</button>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ SELLERS PAGE ═══════════ -->
+<div id="page-sellers" class="page">
+  <div class="section">
+    <h2 class="section-title" style="margin-bottom:8px">Our <span style="color:var(--green)">Sellers & Partners</span></h2>
+    <p class="section-sub" style="margin-bottom:28px">Farmers, boutiques, craftspeople, and businesses across Uganda</p>
+    <div class="sellers-grid" id="sellersGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ COMMUNITY PAGE ═══════════ -->
+<div id="page-community" class="page">
+  <div class="community-grid">
+    <div>
+      <div class="post-form">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div class="post-avatar" style="flex-shrink:0">U</div>
+          <div style="flex:1">
+            <textarea id="postText" placeholder="Share a product, business tip, farm update, or ask for recommendations…"></textarea>
+            <div class="post-form-actions">
+              <div class="post-type-btns">
+                <button class="type-btn active" onclick="setPostType(this,'🛍️ Product')">🛍️ Product</button>
+                <button class="type-btn" onclick="setPostType(this,'🌽 Farm')">🌽 Farm</button>
+                <button class="type-btn" onclick="setPostType(this,'💬 Chat')">💬 Chat</button>
+                <button class="type-btn" onclick="setPostType(this,'📢 Deal')">📢 Deal</button>
+              </div>
+              <button class="btn btn-green" onclick="addPost()" style="padding:8px 18px;font-size:14px">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="feedPosts"></div>
+    </div>
+    <div>
+      <div class="sidebar-card">
+        <h3>🔥 Trending</h3>
+        <div id="trendingList"></div>
+      </div>
+      <div class="sidebar-card">
+        <h3>📍 Top Locations</h3>
+        <div style="font-size:14px;color:var(--text-muted);line-height:2.2">
+          <div>📍 Kampala Central — 234 sellers</div>
+          <div>📍 Nakawa — 98 sellers</div>
+          <div>📍 Jinja — 67 sellers</div>
+          <div>📍 Mbarara — 45 sellers</div>
+          <div>📍 Gulu — 38 sellers</div>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <h3>📦 Quick Order</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px">Can't find what you want? We'll source it for you!</p>
+        <button class="btn btn-green" style="width:100%" onclick="showPage('order')">Place Custom Order →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ORDER PAGE ═══════════ -->
+<div id="page-order" class="page">
+  <div class="order-wrap">
+    <div class="order-card">
+      <div class="order-header">
+        <h2>📦 Place Your Order</h2>
+        <p>Fill in your details and we'll source & deliver to your door</p>
+      </div>
+      <div class="order-body">
+        <div id="successMsg" class="success-msg">✅ Order submitted! We'll WhatsApp you within 30 minutes. Thank you!</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input class="form-input" id="ordName" placeholder="Full name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone / WhatsApp *</label>
+            <input class="form-input" id="ordPhone" placeholder="+256 7XX XXX XXX"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Order Source</label>
+          <select class="form-select" id="ordSource">
+            <option value="">Select store / source</option>
+            <option>SHEIN (International Fashion)</option>
+            <option>Amazon (International Products)</option>
+            <option>Fashion Nova</option>
+            <option>Zara / H&M</option>
+            <option>Local Uganda Seller</option>
+            <option>Farm / Agricultural Products</option>
+            <option>Other (describe below)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Product Link or Description *</label>
+          <textarea class="form-textarea" id="ordProduct" placeholder="Paste a product link (e.g. from SHEIN) OR describe what you want — size, colour, quantity, etc."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Quantity</label>
+            <input class="form-input" id="ordQty" type="number" min="1" value="1"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget (UGX)</label>
+            <input class="form-input" id="ordBudget" placeholder="e.g. 150,000"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Delivery Address / Location *</label>
+          <input class="form-input" id="ordLocation" placeholder="Area, district — e.g. Nakawa, Kampala"/>
+          <div class="form-hint">📍 Include landmark or Google Maps link if possible</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Delivery Option</label>
+          <select class="form-select" id="ordDelivery">
+            <option>🏃 Express (same day — Kampala, +UGX 5,000)</option>
+            <option>📦 Standard (1–2 days — Uganda-wide, +UGX 3,000)</option>
+            <option>🏭 Pickup from our office (Free)</option>
+            <option>✈️ International order (7–14 days)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Special Instructions</label>
+          <textarea class="form-textarea" id="ordNotes" placeholder="Colour preferences, size, packaging notes, allergies, or anything else…" style="min-height:70px"></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="submitOrder()">
+          📤 Submit Order
+        </button>
+
+        <div class="whatsapp-note">
+          <span style="font-size:24px">💬</span>
+          <span>After submitting, you'll get a WhatsApp confirmation at your number within 30 minutes.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- List your product -->
+    <div class="order-card" style="margin-top:24px">
+      <div class="order-header" style="background:linear-gradient(135deg,#9A7210,#D4A017)">
+        <h2>🏪 List Your Product / Business</h2>
+        <p>Join our seller community — farms, boutiques, crafts, and services welcome!</p>
+      </div>
+      <div class="order-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Business / Seller Name *</label>
+            <input class="form-input" id="selName" placeholder="Your business name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number *</label>
+            <input class="form-input" id="selPhone" placeholder="+256 7XX XXX XXX"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select" id="selCategory">
+              <option>Fashion & Clothing</option>
+              <option>Farm Produce</option>
+              <option>Electronics</option>
+              <option>Food & Drinks</option>
+              <option>Crafts & Handmade</option>
+              <option>Services</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input class="form-input" id="selLocation" placeholder="District, area"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Product / Service Description *</label>
+          <textarea class="form-textarea" id="selDesc" placeholder="Describe what you sell, prices, availability…"></textarea>
+        </div>
+        <button class="submit-btn" style="background:var(--gold)" onclick="submitSeller()">🚀 Join as Seller</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>UgandaConnect</h4>
+      <p>Uganda's marketplace connecting shoppers, sellers, and farmers across the country.</p>
+      <p style="margin-top:12px">📞 +256 771 949 111</p>
+      <p>📍 Kampala, Uganda</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="#" onclick="showPage('marketplace')">Browse All Products</a>
+      <a href="#">SHEIN Orders</a>
+      <a href="#">Amazon Orders</a>
+      <a href="#">Local Products</a>
+    </div>
+    <div class="footer-col">
+      <h4>Sell</h4>
+      <a href="#" onclick="showPage('order')">List Your Products</a>
+      <a href="#" onclick="showPage('sellers')">Meet Our Sellers</a>
+      <a href="#" onclick="showPage('community')">Join Community</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="https://wa.me/256771949111">WhatsApp Us</a>
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">Track Your Order</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 UgandaConnect — Powered by Diva Shoppers | Built with 🇺🇬 in Uganda</div>
+</footer>
+
+<a href="https://wa.me/256771949111" class="wa-float" title="Chat on WhatsApp">💬</a>
+
+<script>
+// ─── DATA ───────────────────────────────────────
+const products = [
+  {id:1,name:'Floral Summer Dress',seller:'Diva Shoppers',price:89000,category:'Fashion',location:'SHEIN (International)',icon:'👗',badge:'Trending',badgeType:'badge-gold'},
+  {id:2,name:'Ankara Print Skirt',seller:'Mama Africa Boutique',price:45000,category:'Fashion',location:'Kampala',icon:'🧣',badge:'Local',badgeType:'badge-green'},
+  {id:3,name:'Fresh Matooke Bundle (10kg)',seller:'Ssekiboobi Farms',price:25000,category:'Farm Produce',location:'Mbarara',icon:'🍌',badge:'Farm Fresh',badgeType:'badge-green'},
+  {id:4,name:'Samsung A15 Phone',seller:'Tech Hub Jinja',price:680000,category:'Electronics',location:'Jinja',icon:'📱',badge:'New',badgeType:'badge-gold'},
+  {id:5,name:'Rolex (Street Food)',seller:'Wandegeya Rolex',price:5000,category:'Food & Drinks',location:'Kampala',icon:'🌯',badge:'Popular',badgeType:'badge-gold'},
+  {id:6,name:'Handwoven Basket Set',seller:'Craft Queens Uganda',price:35000,category:'Crafts',location:'Gulu',icon:'🧺',badgeType:''},
+  {id:7,name:'Men\'s Cargo Pants',seller:'Diva Shoppers',price:120000,category:'Fashion',location:'SHEIN (International)',icon:'👖',badge:'Trending',badgeType:'badge-gold'},
+  {id:8,name:'Organic Coffee Beans (1kg)',seller:'Rwenzori Coffee Co.',price:18000,category:'Farm Produce',location:'Kasese',icon:'☕',badge:'Organic',badgeType:'badge-green'},
+  {id:9,name:'Wireless Earbuds',seller:'Tech Hub Jinja',price:95000,category:'Electronics',location:'Jinja',icon:'🎧',badgeType:''},
+  {id:10,name:'Sim Sim Groundnut Paste',seller:'Acholi Foods',price:8000,category:'Food & Drinks',location:'Gulu',icon:'🫙',badge:'Local',badgeType:'badge-green'},
+  {id:11,name:'Kitenge Handbag',seller:'Namutebi Crafts',price:55000,category:'Crafts',location:'Kampala',icon:'👜',badgeType:''},
+  {id:12,name:'Bodycon Dress Set',seller:'Diva Shoppers',price:75000,category:'Fashion',location:'Amazon (International)',icon:'👗',badge:'Hot Deal',badgeType:'badge-red'},
+];
+
+const sellers = [
+  {name:'Diva Shoppers',owner:'Rigye',type:'Fashion Sourcing Agent',location:'Kampala',products:24,rating:'4.9',emoji:'👗',tags:['SHEIN','Amazon','Fashion Nova','Delivery'],wa:'256771949111'},
+  {name:'Ssekiboobi Farms',owner:'John Ssekiboobi',type:'Farm Produce',location:'Mbarara',products:8,rating:'4.8',emoji:'🌾',tags:['Matooke','Maize','Fresh Veg','Organic'],wa:'256700000002'},
+  {name:'Mama Africa Boutique',owner:'Grace Nalwoga',type:'African Fashion',location:'Nakawa, Kampala',products:45,rating:'4.7',emoji:'🧣',tags:['Ankara','Kitenge','Dresses','Custom'],wa:'256700000003'},
+  {name:'Tech Hub Jinja',owner:'Moses Mutumba',type:'Electronics',location:'Jinja',products:33,rating:'4.6',emoji:'📱',tags:['Phones','Accessories','Repair','Wholesale'],wa:'256700000004'},
+  {name:'Rwenzori Coffee Co.',owner:'Sarah Bwambale',type:'Specialty Coffee',location:'Kasese',products:6,rating:'5.0',emoji:'☕',tags:['Organic','Export Quality','Single Origin'],wa:'256700000005'},
+  {name:'Craft Queens Uganda',owner:'Peace Akello',type:'Handmade Crafts',location:'Gulu',products:19,rating:'4.9',emoji:'🧺',tags:['Baskets','Jewelry','Beads','Cultural'],wa:'256700000006'},
+];
+
+const posts = [
+  {user:'Diva Shoppers',avatar:'DS',time:'2 min ago',type:'🛍️ Product',text:'New SHEIN haul just arrived! 10 pieces of summer dresses now available. Kampala delivery same day. DM or WhatsApp us! 🔥',likes:24,comments:8,liked:false},
+  {user:'Ssekiboobi Farms',avatar:'SF',time:'1 hr ago',type:'🌽 Farm',text:'Fresh matooke ready for pickup in Mbarara! 10kg bags at UGX 25,000. We can deliver to Kampala weekly. Contact us for bulk orders 🍌🌿',likes:15,comments:3,liked:false},
+  {user:'Mama Africa',avatar:'MA',time:'3 hrs ago',type:'🛍️ Product',text:'Custom Ankara designs now taking orders for graduation season! Any size, any style. Starting at UGX 45,000. Show your Uganda pride 🇺🇬',likes:41,comments:12,liked:false},
+  {user:'Beatrice K.',avatar:'BK',time:'5 hrs ago',type:'💬 Chat',text:'Does anyone know where I can get good quality office shoes in Kampala under UGX 100,000? Recommendations welcome!',likes:5,comments:18,liked:false},
+  {user:'Tech Hub Jinja',avatar:'TH',time:'Yesterday',type:'📢 Deal',text:'FLASH DEAL 🔥 Samsung A15 — UGX 680,000 (was 750,000). Only 5 units left. Nationwide delivery available!',likes:33,comments:7,liked:false},
+];
+
+const trending = [
+  {tag:'#SHEINUganda',count:'1.2K posts'},
+  {tag:'#KampalaFashion',count:'890 posts'},
+  {tag:'#FarmToTable',count:'456 posts'},
+  {tag:'#DivaShoppers',count:'340 posts'},
+  {tag:'#UgandaMade',count:'289 posts'},
+];
+
+// ─── CART ───────────────────────────────────────
+let cart = [];
+let currentCat = '';
+let currentPostType = '🛍️ Product';
+
+function navClick(el, page) {
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+  showPage(page);
+}
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function filterCategory(cat) {
+  document.getElementById('categoryFilter').value = cat;
+  showPage('marketplace');
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t=>{
+    t.classList.toggle('active', t.textContent.includes(cat.split(' ')[0]));
+  });
+  renderProducts();
+}
+
+function setCat(el, cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('categoryFilter').value = cat;
+  filterProducts();
+}
+
+function filterProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('categoryFilter').value;
+  const loc = document.getElementById('locationFilter').value;
+  const filtered = products.filter(p=>
+    (!q || p.name.toLowerCase().includes(q) || p.seller.toLowerCase().includes(q)) &&
+    (!cat || p.category === cat) &&
+    (!loc || p.location === loc)
+  );
+  renderProductsFiltered(filtered, 'productsGrid');
+}
+
+function renderProducts() {
+  filterProducts();
+}
+
+function productCard(p) {
+  return `<div class="product-card">
+    <div class="product-img-placeholder">${p.icon}</div>
+    <div class="product-body">
+      ${p.badge ? `<div style="margin-bottom:8px"><span class="badge ${p.badgeType}">${p.badge}</span></div>` : ''}
+      <div class="product-seller"><span class="seller-dot"></span>${p.seller}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-location">📍 ${p.location}</div>
+      <div class="product-footer">
+        <div class="product-price">UGX ${p.price.toLocaleString()}<small>/item</small></div>
+        <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderProductsFiltered(list, targetId) {
+  const grid = document.getElementById(targetId);
+  if(!list.length){grid.innerHTML='<p style="color:var(--text-muted);grid-column:1/-1">No products found. Try a different search.</p>';return;}
+  grid.innerHTML = list.map(productCard).join('');
+}
+
+function addToCart(id) {
+  const p = products.find(x=>x.id===id);
+  const existing = cart.find(x=>x.id===id);
+  if(existing){ existing.qty++; } else { cart.push({...p, qty:1}); }
+  updateCartUI();
+  showToast(`${p.icon} Added to cart!`);
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const total = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cartTotal').textContent = 'UGX '+total.toLocaleString();
+  const ci = document.getElementById('cartItems');
+  if(!cart.length){
+    ci.innerHTML='<div class="empty-cart"><div class="icon">🛒</div><p>Your cart is empty</p></div>';
+    return;
+  }
+  ci.innerHTML = cart.map(i=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${i.icon}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${i.name}</div>
+        <div class="cart-item-seller">${i.seller}</div>
+        <div class="cart-item-price">UGX ${(i.price*i.qty).toLocaleString()}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
+          <span class="qty-num">${i.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
+        </div>
+      </div>
+      <button class="remove-item" onclick="removeItem(${i.id})">🗑</button>
+    </div>`).join('');
+}
+
+function changeQty(id, delta) {
+  const i = cart.find(x=>x.id===id);
+  if(!i) return;
+  i.qty += delta;
+  if(i.qty <= 0) removeItem(id); else updateCartUI();
+}
+
+function removeItem(id) {
+  cart = cart.filter(x=>x.id!==id);
+  updateCartUI();
+}
+
+function toggleCart() {
+  document.getElementById('cartPanel').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('show');
+}
+
+function checkout() {
+  if(!cart.length){showToast('Cart is empty!');return;}
+  const items = cart.map(i=>`${i.qty}x ${i.name} (UGX ${(i.price*i.qty).toLocaleString()})`).join('%0A');
+  const total = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const msg = `Hello UgandaConnect! I'd like to order:%0A%0A${items}%0A%0ATotal: UGX ${total.toLocaleString()}%0A%0APlease confirm and advise on delivery.`;
+  window.open(`https://wa.me/256771949111?text=${msg}`,'_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─── SELLERS ───────────────────────────────────
+function renderSellers() {
+  document.getElementById('sellersGrid').innerHTML = sellers.map(s=>`
+    <div class="seller-card">
+      <div class="seller-header">
+        <div class="seller-avatar">${s.emoji}</div>
+        <div class="seller-info">
+          <h3>${s.name}</h3>
+          <p>${s.type} · ${s.location}</p>
+        </div>
+      </div>
+      <div class="seller-meta">
+        <span>⭐ ${s.rating}</span>
+        <span>🛍️ ${s.products} products</span>
+        <span>📍 ${s.location.split(',')[0]}</span>
+      </div>
+      <div class="seller-tags">${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="contact-btns">
+        <button class="wa-btn" onclick="window.open('https://wa.me/${s.wa}','_blank')">💬 WhatsApp</button>
+        <button class="map-btn" onclick="showToast('📍 Opening ${s.location} on Maps…')">📍 Locate</button>
+      </div>
+    </div>`).join('');
+}
+
+// ─── COMMUNITY ─────────────────────────────────
+let feed = [...posts];
+
+function setPostType(el, type) {
+  currentPostType = type;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function addPost() {
+  const txt = document.getElementById('postText').value.trim();
+  if(!txt){showToast('Write something first!');return;}
+  feed.unshift({user:'You',avatar:'U',time:'Just now',type:currentPostType,text:txt,likes:0,comments:0,liked:false});
+  document.getElementById('postText').value='';
+  renderFeed();
+  showToast('✅ Posted!');
+}
+
+function likePost(idx) {
+  feed[idx].liked = !feed[idx].liked;
+  feed[idx].likes += feed[idx].liked ? 1 : -1;
+  renderFeed();
+}
+
+function renderFeed() {
+  document.getElementById('feedPosts').innerHTML = feed.map((p,i)=>`
+    <div class="feed-post">
+      <div class="post-user">
+        <div class="post-avatar">${p.avatar}</div>
+        <div>
+          <div class="post-username">${p.user} <span class="badge badge-green" style="font-size:10px">${p.type}</span></div>
+          <div class="post-time">${p.time}</div>
+        </div>
+      </div>
+      <div class="post-text">${p.text}</div>
+      <div class="post-actions">
+        <div class="post-action ${p.liked?'liked':''}" onclick="likePost(${i})">❤️ ${p.likes}</div>
+        <div class="post-action">💬 ${p.comments}</div>
+        <div class="post-action">📤 Share</div>
+        <div class="post-action" onclick="showToast('📍 Location shared!')">📍 Location</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderTrending() {
+  document.getElementById('trendingList').innerHTML = trending.map((t,i)=>`
+    <div class="trending-item">
+      <div class="trending-num">${i+1}</div>
+      <div><div class="trending-tag">${t.tag}</div><div class="trending-count">${t.count}</div></div>
+    </div>`).join('');
+}
+
+// ─── ORDER FORM ─────────────────────────────────
+function submitOrder() {
+  const name = document.getElementById('ordName').value.trim();
+  const phone = document.getElementById('ordPhone').value.trim();
+  const product = document.getElementById('ordProduct').value.trim();
+  const loc = document.getElementById('ordLocation').value.trim();
+  if(!name||!phone||!product||!loc){showToast('⚠️ Please fill all required fields');return;}
+  
+  const source = document.getElementById('ordSource').value;
+  const qty = document.getElementById('ordQty').value;
+  const budget = document.getElementById('ordBudget').value;
+  const delivery = document.getElementById('ordDelivery').value;
+  const notes = document.getElementById('ordNotes').value;
+
+  const msg = `*New UgandaConnect Order*%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A%0A🛍️ *Source:* ${source}%0A📦 *Product:* ${product}%0A🔢 *Qty:* ${qty}%0A💰 *Budget:* UGX ${budget}%0A%0A📍 *Delivery:* ${loc}%0A🚚 *Option:* ${delivery}%0A%0A📝 *Notes:* ${notes||'None'}`;
+
+  window.open(`https://wa.me/256771949111?text=${msg}`,'_blank');
+  document.getElementById('successMsg').classList.add('show');
+  setTimeout(()=>document.getElementById('successMsg').classList.remove('show'),5000);
+}
+
+function submitSeller() {
+  const name = document.getElementById('selName').value.trim();
+  const phone = document.getElementById('selPhone').value.trim();
+  const desc = document.getElementById('selDesc').value.trim();
+  if(!name||!phone||!desc){showToast('⚠️ Please fill all fields');return;}
+  
+  const cat = document.getElementById('selCategory').value;
+  const loc = document.getElementById('selLocation').value;
+  const msg = `*New Seller Application*%0A%0A🏪 *Business:* ${name}%0A📞 *WhatsApp:* ${phone}%0A📂 *Category:* ${cat}%0A📍 *Location:* ${loc}%0A%0A📝 *Description:* ${desc}`;
+  
+  window.open(`https://wa.me/256771949111?text=${msg}`,'_blank');
+  showToast('✅ Application sent! We\'ll contact you soon.');
+}
+
+// ─── INIT ────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', ()=>{
+  renderProductsFiltered(products.slice(0,8), 'featuredGrid');
+  renderProductsFiltered(products, 'productsGrid');
+  renderSellers();
+  renderFeed();
+  renderTrending();
+});
+</script>
+</body>
+</html>
