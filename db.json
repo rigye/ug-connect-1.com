@@ -1,0 +1,38 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "author": "Mbarara Fresh Hub",
+      "role": "Verified Farm Page",
+      "location": "Mbarara, Uganda",
+      "image": "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=900&q=80",
+      "text": "Fresh tomatoes available in Mbarara. Delivery to Kampala and surrounding districts. DM for wholesale pricing and farm gate pickup.",
+      "tags": ["Agriculture", "Fresh", "Local"],
+      "reactions": "124",
+      "comments": "18",
+      "createdAt": "2026-05-10T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "author": "Glow Salon Kampala",
+      "role": "New Business",
+      "location": "Kampala",
+      "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=900&q=80",
+      "text": "We have opened a new premium salon in Nsambya. Grand opening discounts on haircuts, styling, and beauty services this week.",
+      "tags": ["Beauty", "SME", "Launch"],
+      "reactions": "89",
+      "comments": "12",
+      "createdAt": "2026-05-09T14:30:00.000Z"
+    }
+  ],
+  "messages": [
+    { "id": 1, "user": "Sarah K.", "avatar": "S", "text": "Anyone know the best time to plant maize in Jinja?", "time": "2m ago", "channel": "General" },
+    { "id": 2, "user": "Moses O.", "avatar": "M", "text": "Usually start of March rains. Make sure soil is warm enough!", "time": "1m ago", "channel": "General" },
+    { "id": 3, "user": "Aisha N.", "avatar": "A", "text": "I treat my dairy cows with this mineral supplement — massive improvement in milk yield.", "time": "5m ago", "channel": "Livestock" },
+    { "id": 4, "user": "David M.", "avatar": "D", "text": "Coffee prices at Kampala market are up this week — good time to sell!", "time": "10m ago", "channel": "Market" }
+  ],
+  "activities": [
+    { "id": 1, "text": "Planting rice", "date": "2026-05-05", "status": "planned", "icon": "🌱" },
+    { "id": 2, "text": "Vaccinate dairy cows", "date": "2026-05-10", "status": "planned", "icon": "💉" }
+  ]
+}
